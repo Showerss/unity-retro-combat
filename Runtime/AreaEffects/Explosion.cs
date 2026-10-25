@@ -37,6 +37,9 @@ namespace Retro.Combat
         [SerializeField, Min(0f)] private float _flashIntensity = 8f;
         [SerializeField] private Color _flashColor = new Color(1f, 0.7f, 0.35f);
 
+        [Tooltip("Camera jolt for nearby players (needs ScreenShake on the camera). Amplitude 0 = off.")]
+        [SerializeField] private ShakeSettings _shake = new ShakeSettings(0f, 12f, 0.25f);
+
         [Tooltip("Remove this GameObject after detonating.")]
         [SerializeField] private bool _destroyAfter = true;
 
@@ -78,6 +81,7 @@ namespace Retro.Combat
             if (_vfxPrefab != null) Instantiate(_vfxPrefab, center, Quaternion.identity);
             if (_sound != null) AudioSource.PlayClipAtPoint(_sound, center, _volume);
             if (_flashIntensity > 0f) LightFlash.Spawn(center, _flashColor, _flashIntensity, _radius * 2f, 0.25f);
+            _shake.Play(center);
         }
 
         private void OnDrawGizmosSelected()

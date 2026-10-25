@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- `ScreenShake` + `ShakeSettings`: opt-in, position-only camera jolt with distance falloff and a global `Strength` multiplier.
+- `Explosion._shake`, `ImpactTrigger._vfxPrefab` and `ImpactTrigger._shake`.
 - `Poison` status effect + `PoisonSettings`: damage over time that lingers after exposure; re-exposure refreshes duration and keeps the stronger dose.
 - `DamageZone._poison`: poisons everything caught inside.
 - `AreaDebugView`: shows each area query's radius, hit targets and LOS-blocked targets for a second.

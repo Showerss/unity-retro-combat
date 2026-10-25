@@ -15,13 +15,17 @@ Status effects
 
 Triggers (wire through UnityEvents, mix freely)
 ├── FuseTimer              OnFuseEnd after N seconds
-└── ImpactTrigger          OnImpact on first hard collision, optional spawn prefab
+└── ImpactTrigger          OnImpact on first hard collision, optional spawn prefab + VFX
+
+Feedback
+└── ScreenShake            tiny positional camera jolt; put it on the camera, triggered by ShakeSettings on Explosion/ImpactTrigger
 ```
 
 ## Recipes
 - **Bomb:** Rigidbody + collider + `FuseTimer` (OnFuseEnd → `Explosion.Detonate`) + `Explosion`.
 - **Impact grenade:** swap `FuseTimer` for `ImpactTrigger` (OnImpact → `Explosion.Detonate`, `_destroyOnImpact` off).
 - **Beehive / poison flask:** `ImpactTrigger` with `_spawnOnImpact` = a prefab holding `DamageZone`. Set its `_poison` so victims keep taking damage after they escape.
+- **Impact feel:** set `_vfxPrefab` (a self-destroying particle burst) and `_shake` on `Explosion`/`ImpactTrigger`, and add `ScreenShake` to the player camera. Keep amplitudes at 1-3 cm.
 - **Target:** add `Health` to any object with a collider.
 
 **Debug:** `AreaDebugView.Enabled` (default on in Editor/dev builds). The game toggles it with F3.
