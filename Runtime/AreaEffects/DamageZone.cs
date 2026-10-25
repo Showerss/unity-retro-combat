@@ -15,6 +15,9 @@ namespace Retro.Combat
         [Tooltip("Seconds before the zone despawns. 0 = forever.")]
         [SerializeField, Min(0f)] private float _duration = 6f;
 
+        [Tooltip("Poison applied to everything caught inside; keeps hurting after they leave.")]
+        [SerializeField] private PoisonSettings _poison = new PoisonSettings(0f, 1f, 0f);
+
         [SerializeField] private LayerMask _affects = ~0;
         [SerializeField] private LayerMask _occluders = ~0;
         [SerializeField] private bool _requireLineOfSight = true;
@@ -46,6 +49,7 @@ namespace Retro.Combat
             foreach (var (target, point) in _targets)
             {
                 target.TakeDamage(new DamageInfo(_damagePerTick, point, gameObject));
+                Poison.Apply(target, _poison, gameObject);
             }
         }
 

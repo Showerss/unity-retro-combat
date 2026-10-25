@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- `Poison` status effect + `PoisonSettings`: damage over time that lingers after exposure; re-exposure refreshes duration and keeps the stronger dose.
+- `DamageZone._poison`: poisons everything caught inside.
 - `AreaDebugView`: shows each area query's radius, hit targets and LOS-blocked targets for a second.
 
 ## [0.1.0] - 2026-10-24
