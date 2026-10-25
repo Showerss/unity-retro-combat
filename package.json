@@ -1,0 +1,11 @@
+{
+  "name": "com.retro.combat",
+  "version": "0.1.0",
+  "displayName": "Retro Combat",
+  "description": "Health and damage, plus area effects (explosions, lingering damage zones) and simple fuse/impact triggers for thrown objects.",
+  "unity": "6000.0",
+  "author": {
+    "name": "Phillip Banky"
+  },
+  "dependencies": {}
+}
