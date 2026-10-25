@@ -21,4 +21,6 @@ Triggers (wire through UnityEvents, mix freely)
 - **Beehive / poison flask:** `ImpactTrigger` with `_spawnOnImpact` = a prefab holding `DamageZone`.
 - **Target:** add `Health` to any object with a collider.
 
+**Debug:** `AreaDebugView.Enabled` (default on in Editor/dev builds). The game toggles it with F3.
+
 See `Documentation~/Combat.md` for design notes.

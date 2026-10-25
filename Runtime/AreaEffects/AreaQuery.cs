@@ -10,6 +10,8 @@ namespace Retro.Combat
     {
         private static readonly Collider[] Hits = new Collider[64];
         private static readonly HashSet<Object> Seen = new HashSet<Object>();
+        private static readonly List<Vector3> DebugHits = new List<Vector3>();
+        private static readonly List<Vector3> DebugBlocked = new List<Vector3>();
 
         public static void Collect(Vector3 center, float radius, LayerMask mask, LayerMask occluders, bool requireLineOfSight,
             List<(IDamageable target, Vector3 point)> damageables, List<Rigidbody> bodies)
@@ -17,6 +19,8 @@ namespace Retro.Combat
             damageables?.Clear();
             bodies?.Clear();
             Seen.Clear();
+            DebugHits.Clear();
+            DebugBlocked.Clear();
 
             int count = Physics.OverlapSphereNonAlloc(center, radius, Hits, mask, QueryTriggerInteraction.Ignore);
             for (int i = 0; i < count; i++)
@@ -28,11 +32,18 @@ namespace Retro.Combat
                 if (target == null && rb == null) continue; // terrain, walls
 
                 // LOS aims at the collider's center so rays from a bomb on the floor don't skim the ground.
-                if (requireLineOfSight && IsBlocked(center, col.bounds.center, col, occluders)) continue;
+                if (requireLineOfSight && IsBlocked(center, col.bounds.center, col, occluders))
+                {
+                    if (AreaDebugView.Enabled) DebugBlocked.Add(col.bounds.center);
+                    continue;
+                }
 
+                if (AreaDebugView.Enabled) DebugHits.Add(col.bounds.center);
                 if (target is Object key && Seen.Add(key)) damageables.Add((target, ClosestPoint(col, center)));
                 if (rb != null && Seen.Add(rb)) bodies.Add(rb);
             }
+
+            if (AreaDebugView.Enabled) AreaDebugView.Show(center, radius, DebugHits, DebugBlocked);
         }
 
         // Physics.ClosestPoint only supports primitives and convex meshes.
