@@ -8,7 +8,7 @@ namespace Retro.Combat
     /// </summary>
     public static class AreaQuery
     {
-        private static readonly Collider[] Hits = new Collider[64];
+        private static Collider[] Hits = new Collider[64];
         private static readonly HashSet<Object> Seen = new HashSet<Object>();
         private static readonly List<Vector3> DebugHits = new List<Vector3>();
         private static readonly List<Vector3> DebugBlocked = new List<Vector3>();
@@ -22,7 +22,12 @@ namespace Retro.Combat
             DebugHits.Clear();
             DebugBlocked.Clear();
 
-            int count = Physics.OverlapSphereNonAlloc(center, radius, Hits, mask, QueryTriggerInteraction.Ignore);
+            int count;
+            while ((count = Physics.OverlapSphereNonAlloc(center, radius, Hits, mask, QueryTriggerInteraction.Ignore)) == Hits.Length)
+            {
+                // A full buffer may be truncated. Retry before processing, retaining capacity for future queries.
+                Hits = new Collider[checked(Hits.Length * 2)];
+            }
             for (int i = 0; i < count; i++)
             {
                 Collider col = Hits[i];
